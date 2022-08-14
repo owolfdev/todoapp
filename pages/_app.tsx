@@ -1,8 +1,13 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "tailwindcss/tailwind.css";
+import { ItemsProvider } from "../context/ItemsContext";
+import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <ItemsProvider>
+      <Component {...pageProps} />
+    </ItemsProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
