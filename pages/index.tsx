@@ -37,7 +37,7 @@ export default function Home({ initialItems }: InitialProps) {
   return (
     <div className="container mx-auto my-6 max-w-xl">
       <Head>
-        <title>@Todos</title>
+        <title>OWolf's Todos</title>
       </Head>
 
       <main>
@@ -46,6 +46,7 @@ export default function Home({ initialItems }: InitialProps) {
           {items &&
             items.map((item: any) => <Item key={item.id} item={item} />)}
         </ul>
+        <br />
         <iframe
           className="airtable-embed"
           key={iframeKey}
