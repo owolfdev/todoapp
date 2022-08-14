@@ -4,6 +4,7 @@ const ItemsContext = createContext();
 
 const ItemsProvider = ({ children }) => {
   const [items, setItems] = useState();
+  const [count, setCount] = useState(100);
 
   // for creating an item
   const addItem = async (item) => {
@@ -71,6 +72,8 @@ const ItemsProvider = ({ children }) => {
         updateItem,
         deleteItem,
         addItem,
+        count,
+        setCount,
       }}
     >
       {children}

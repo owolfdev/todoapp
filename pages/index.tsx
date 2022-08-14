@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { table, minifyItems } from "../utils/Airtable";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ItemsContext } from "../context/ItemsContext";
 import Item from "../components/Item";
 import ItemForm from "../components/ItemForm";
@@ -10,11 +10,30 @@ interface InitialProps {
 }
 
 export default function Home({ initialItems }: InitialProps) {
-  const { items, setItems } = useContext(ItemsContext);
+  const { items, setItems, count, setCount } = useContext(ItemsContext);
+  const tableFrameRef = useRef<HTMLIFrameElement>(null);
+  const [iframeKey, setIframeKey] = useState(String);
   //console.log(initialItems);
   useEffect(() => {
     setItems(initialItems);
+    //document.getElementById("airtable-frame").contentWindow.location.reload();
+    //console.log(tableFrameRef);
+    //console.log("updated");
   }, [initialItems, setItems]);
+
+  useEffect(() => {
+    console.log("updated");
+    console.log(tableFrameRef);
+    setCount(count + 1);
+    //tableFrameRef.current?.contentWindow?.location.reload();
+  }, [items]);
+
+  useEffect(() => {
+    setIframeKey(count);
+  });
+
+  //
+
   return (
     <div className="container mx-auto my-6 max-w-xl">
       <Head>
@@ -27,6 +46,15 @@ export default function Home({ initialItems }: InitialProps) {
           {items &&
             items.map((item: any) => <Item key={item.id} item={item} />)}
         </ul>
+        <iframe
+          className="airtable-embed"
+          key={iframeKey}
+          src="https://airtable.com/embed/shrhzhmttU2SXjlkA?backgroundColor=orange&viewControls=on"
+          frameBorder="0"
+          width="100%"
+          height="533"
+          style={{ background: "transparent", border: "1px solid #ccc" }}
+        ></iframe>
       </main>
     </div>
   );
