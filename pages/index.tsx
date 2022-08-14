@@ -24,7 +24,8 @@ export default function Home({ initialItems }: InitialProps) {
       <main>
         <ItemForm />
         <ul>
-          {items && items.map((item) => <Item key={item.id} item={item} />)}
+          {items &&
+            items.map((item: any) => <Item key={item.id} item={item} />)}
         </ul>
       </main>
     </div>
