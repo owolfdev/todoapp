@@ -41,12 +41,16 @@ export default function Home({ initialItems }: InitialProps) {
       </Head>
 
       <main>
+        <h1>OWolf's Todos</h1>
         <ItemForm />
         <ul>
           {items &&
             items.map((item: any) => <Item key={item.id} item={item} />)}
         </ul>
         <br />
+        <p>
+          This is an embed of the view in Airtable, which stores our todo data.
+        </p>
         <iframe
           className="airtable-embed"
           key={iframeKey}
