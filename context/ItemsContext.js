@@ -5,14 +5,15 @@ const ItemsContext = createContext();
 const ItemsProvider = ({ children }) => {
   const [items, setItems] = useState();
   const [count, setCount] = useState(100);
+  //const user = "oliverwolfson@gmail.com";
 
   // for creating an item
-  const addItem = async (item) => {
+  const addItem = async (item, user) => {
     try {
       // we will send a POST request with the data required to create an item
       const res = await fetch("/api/create-item", {
         method: "POST",
-        body: JSON.stringify({ item }),
+        body: JSON.stringify({ item, user }),
         headers: { "Content-Type": "application/json" },
       });
       const newItem = await res.json();

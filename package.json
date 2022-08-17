@@ -6,8 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.9.1",
     "airtable": "^0.11.4",
     "next": "latest",
+    "next-auth": "^4.10.3",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },

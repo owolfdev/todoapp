@@ -4,12 +4,16 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ItemsContext } from "../context/ItemsContext";
 import Item from "../components/Item";
 import ItemForm from "../components/ItemForm";
+import Navbar from "../components/Navbar";
+
+//import { useUser } from "@auth0/nextjs-auth0";
 
 interface InitialProps {
   [initialItems: string]: [];
 }
 
 export default function Home({ initialItems }: InitialProps) {
+  //const { user, error, isLoading } = useUser();
   const { items, setItems, count, setCount } = useContext(ItemsContext);
   const tableFrameRef = useRef<HTMLIFrameElement>(null);
   const [iframeKey, setIframeKey] = useState(String);
@@ -34,14 +38,19 @@ export default function Home({ initialItems }: InitialProps) {
 
   //
 
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>{error.message}</div>;
+
   return (
-    <div className="container mx-auto my-6 max-w-xl">
+    <div className="container mx-auto my-6 max-w-xl p-5">
       <Head>
         <title>OWolf's Todos</title>
       </Head>
-
+      <Navbar />
       <main>
-        <h1>OWolf's Todos</h1>
+        <h1 className="text-6xl font-bold leading-normal mt-0 mb-2">
+          OWolf's Todos
+        </h1>
         <ItemForm />
         <ul>
           {items &&
@@ -49,7 +58,8 @@ export default function Home({ initialItems }: InitialProps) {
         </ul>
         <br />
         <p>
-          This is an embed of the view in Airtable, which stores our todo data.
+          Below is an embed of the view in Airtable, which stores the 'todo'
+          data. Note: Completed items will have a ✅ check mark.
         </p>
         <iframe
           className="airtable-embed"
