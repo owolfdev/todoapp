@@ -25,7 +25,8 @@ const ItemForm = () => {
 
   const testForTodos = () => {
     let guestHasTodo = false;
-    if (session.user.email !== process.env.TODO_OWNER) {
+    console.log(process.env.TODO_OWNER);
+    if (session.user.email !== "owolfdev@gmail.com") {
       items.map((item) => {
         if (item.fields.user === session.user.email) {
           alert(
