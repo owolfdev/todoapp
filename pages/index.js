@@ -5,19 +5,22 @@ import { ItemsContext } from "../context/ItemsContext";
 import Item from "../components/Item";
 import ItemForm from "../components/ItemForm";
 import Navbar from "../components/Navbar";
+import { useSession } from "next-auth/react";
 
 //import { useUser } from "@auth0/nextjs-auth0";
 
-interface InitialProps {
-  [initialItems: string]: [];
-}
+// interface InitialProps {
+//   [initialItems: string]: [];
+// }
 
-export default function Home({ initialItems }: InitialProps) {
+export default function Home({ initialItems }) {
   //const { user, error, isLoading } = useUser();
   const { items, setItems, count, setCount } = useContext(ItemsContext);
-  const tableFrameRef = useRef<HTMLIFrameElement>(null);
+  const [user, setUser] = useState("");
+  const tableFrameRef = useRef;
   const [iframeKey, setIframeKey] = useState(String);
   //console.log(initialItems);
+  const { data: session } = useSession();
   useEffect(() => {
     setItems(initialItems);
     //document.getElementById("airtable-frame").contentWindow.location.reload();
@@ -26,8 +29,12 @@ export default function Home({ initialItems }: InitialProps) {
   }, [initialItems, setItems]);
 
   useEffect(() => {
-    console.log("updated");
-    console.log(tableFrameRef);
+    session ? setUser(`${session.user.name}'s`) : "";
+  }, [session]);
+
+  useEffect(() => {
+    // console.log("updated");
+    // console.log(tableFrameRef);
     setCount(count + 1);
     //tableFrameRef.current?.contentWindow?.location.reload();
   }, [items]);
@@ -44,17 +51,26 @@ export default function Home({ initialItems }: InitialProps) {
   return (
     <div className="container mx-auto my-6 max-w-xl p-5">
       <Head>
-        <title>OWolf's Todos</title>
+        <title>Todos</title>
       </Head>
       <Navbar />
       <main>
-        <h1 className="text-6xl font-bold leading-normal mt-0 mb-2">
-          OWolf's Todos
-        </h1>
-        <ItemForm />
+        {session ? (
+          <ItemForm />
+        ) : (
+          <>
+            <p>Log in to add todos.</p>{" "}
+            <p>
+              <strong>Note:</strong> Guest users may add only <u>one</u> todo
+              😁.
+            </p>
+          </>
+        )}
+        <h2 className="text-4xl font-bold leading-normal mt-0 mb-2">
+          {`Todos`}
+        </h2>
         <ul>
-          {items &&
-            items.map((item: any) => <Item key={item.id} item={item} />)}
+          {items && items.map((item) => <Item key={item.id} item={item} />)}
         </ul>
         <br />
         <p>

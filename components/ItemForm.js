@@ -5,14 +5,37 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 const ItemForm = () => {
   const [item, setItem] = useState("");
-  const [user, setUser] = useState("owolfdev@gmail.com");
-  const { addItem } = useContext(ItemsContext);
+  const [user, setUser] = useState(process.env.TODO_OWNER);
+  const { addItem, items } = useContext(ItemsContext);
   const { data: session } = useSession();
+  //const [guestHasTodo, setGuestHasTodo] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(item, session.user.email);
-    setItem("");
+    const guestHasTodo = testForTodos();
+    console.log(guestHasTodo);
+    if (guestHasTodo) {
+      console.log("guest has todo.");
+    } else {
+      console.log("no todos");
+      addItem(item, session.user.email);
+      setItem("");
+    }
+  };
+
+  const testForTodos = () => {
+    let guestHasTodo = false;
+    if (session.user.email !== process.env.TODO_OWNER) {
+      items.map((item) => {
+        if (item.fields.user === session.user.email) {
+          alert(
+            "You already added a todo. \nDelete your old todo before adding a new one."
+          );
+          guestHasTodo = true;
+        }
+      });
+    }
+    return guestHasTodo;
   };
 
   return (

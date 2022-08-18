@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { ItemsContext } from "../context/ItemsContext";
+import { useSession } from "next-auth/react";
 
 const Item = ({ item }) => {
   // for updating and deleting item
   const { updateItem, deleteItem } = useContext(ItemsContext);
+  const { data: session } = useSession();
 
   // Update the record when the checkbox is checked
   const handleCompleted = () => {
@@ -13,6 +15,17 @@ const Item = ({ item }) => {
     };
     const updatedItem = { id: item.id, fields: updatedFields };
     updateItem(updatedItem);
+  };
+
+  const handleDeleteItem = () => {
+    console.log(session.user.email, item.fields.user);
+    if (session.user.email === "owolfdev@gmail.com") {
+      deleteItem(item.id);
+    } else if (session.user.email === item.fields.user) {
+      deleteItem(item.id);
+    } else {
+      alert("You can only delete your own todos.");
+    }
   };
 
   return (
@@ -36,7 +49,7 @@ const Item = ({ item }) => {
       <button
         type="button"
         className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded"
-        onClick={() => deleteItem(item.id)}
+        onClick={handleDeleteItem}
       >
         Delete
       </button>
