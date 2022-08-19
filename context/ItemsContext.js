@@ -5,6 +5,7 @@ const ItemsContext = createContext();
 const ItemsProvider = ({ children }) => {
   const [items, setItems] = useState();
   const [count, setCount] = useState(100);
+
   //const user = "oliverwolfson@gmail.com";
 
   // for creating an item
