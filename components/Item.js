@@ -19,7 +19,7 @@ const Item = ({ item }) => {
 
   const handleDeleteItem = () => {
     console.log(session.user.email, item.fields.user);
-    if (session.user.email === "owolfdev@gmail.com") {
+    if (session.user.email === process.env.NEXT_PUBLIC_TODO_OWNER) {
       deleteItem(item.id);
     } else if (session.user.email === item.fields.user) {
       deleteItem(item.id);

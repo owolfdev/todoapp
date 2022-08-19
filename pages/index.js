@@ -7,25 +7,13 @@ import ItemForm from "../components/ItemForm";
 import Navbar from "../components/Navbar";
 import { useSession } from "next-auth/react";
 
-//import { useUser } from "@auth0/nextjs-auth0";
-
-// interface InitialProps {
-//   [initialItems: string]: [];
-// }
-
 export default function Home({ initialItems }) {
-  //const { user, error, isLoading } = useUser();
   const { items, setItems, count, setCount } = useContext(ItemsContext);
   const [user, setUser] = useState("");
-  const tableFrameRef = useRef;
   const [iframeKey, setIframeKey] = useState(String);
-  //console.log(initialItems);
   const { data: session } = useSession();
   useEffect(() => {
     setItems(initialItems);
-    //document.getElementById("airtable-frame").contentWindow.location.reload();
-    //console.log(tableFrameRef);
-    //console.log("updated");
   }, [initialItems, setItems]);
 
   useEffect(() => {
@@ -33,20 +21,12 @@ export default function Home({ initialItems }) {
   }, [session]);
 
   useEffect(() => {
-    // console.log("updated");
-    // console.log(tableFrameRef);
     setCount(count + 1);
-    //tableFrameRef.current?.contentWindow?.location.reload();
   }, [items]);
 
   useEffect(() => {
     setIframeKey(count);
   });
-
-  //
-
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>{error.message}</div>;
 
   return (
     <div className="container mx-auto my-6 max-w-xl p-5">
@@ -59,13 +39,16 @@ export default function Home({ initialItems }) {
           <ItemForm />
         ) : (
           <>
-            <p>Log in to add todos.</p>{" "}
+            <p>
+              <strong>Log in</strong> (with Google) to add todos.
+            </p>{" "}
             <p>
               <strong>Note:</strong> Guest users may add only <u>one</u> todo
               😁.
             </p>
           </>
         )}
+        <hr />
         <h2 className="text-4xl font-bold leading-normal mt-0 mb-2">
           {`Todos`}
         </h2>
@@ -73,9 +56,12 @@ export default function Home({ initialItems }) {
           {items && items.map((item) => <Item key={item.id} item={item} />)}
         </ul>
         <br />
+        <hr />
+        <br />
         <p>
-          Below is an embed of the view in Airtable, which stores the 'todo'
-          data. Note: Completed items will have a ✅ check mark.
+          Below is an embed of the view from Airtable. Airtable is a hybrid
+          spreadsheet and database, which stores the 'todo' data. <br />
+          <strong>Note:</strong> Completed items will have a ✅ check mark.
         </p>
         <iframe
           className="airtable-embed"
